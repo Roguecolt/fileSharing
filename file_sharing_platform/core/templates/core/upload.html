@@ -3,10 +3,17 @@
 <head><title>Upload File</title></head>
 <body>
     <h1>Upload a File</h1>
+    <p>Logged in as: {{ user.username }} | <a href="{% url 'logout' %}">Logout</a></p>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Upload</button>
     </form>
+    <a href="{% url 'dashboard' %}">Back to Dashboard</a>
 </body>
 </html>

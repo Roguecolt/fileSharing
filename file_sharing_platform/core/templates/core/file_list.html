@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head><title>File List</title></head>
+<body>
+    <h1>Uploaded Files</h1>
+    <ul>
+    {% for file in files %}
+        <li>{{ file.name }} - Uploaded on {{ file.upload_date }}</li>
+    {% empty %}
+        <li>No files uploaded yet.</li>
+    {% endfor %}
+    </ul>
+    <a href="{% url 'upload_file' %}">Upload a new file</a>
+</body>
+</html>

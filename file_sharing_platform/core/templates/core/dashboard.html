@@ -1,41 +1,35 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Dashboard</title>
-  </head>
-  <body>
-    <h1>Welcome, {{ user.username }}!</h1>
-    <p>
-      <a href="{% url 'logout' %}">Logout</a> |
-      <a href="{% url 'upload_file' %}">Upload a File</a>
-    </p>
-    {% if messages %} {% for message in messages %}
-    <p>{{ message }}</p>
-    {% endfor %} {% endif %}
-    <h2>Your Files ({{ totalfiles }})</h2>
-    <ul>
-      {% for file in files %}
-      <li>
-        {{ file.name }} - Uploaded on {{ file.upload_date }}
-        <a href="{% url 'share_file' file.id %}">Share</a> |
-        <a href="{{ file.uploaded_file.url }}" download>Download</a>
-        <a href="{% url 'delete_file' file.id %}">Delete</a> |
-      </li>
-      {% empty %}
-      <li>No files uploaded yet.</li>
-      {% endfor %}
-    </ul>
-    <h2>Files Shared with You</h2>
-    <ul>
-      {% for shared in sharedfiles %}
-      <li>
-        {{ shared.file.name }} - Shared by {{ shared.file.user.username }} on {{
-        shared.shared_date }}
+{% extends 'core/base.html' %}
+{% block title %}Dashboard - File Sharing{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-5">
+    <h1>Welcome, {{ user.username }}</h1>
+    <a href="{% url 'logout' %}" class="btn btn-secondary">Log Out</a>
+</div>
+<a href="{% url 'upload_file' %}" class="btn btn-primary mb-5">Upload a File</a>
+<h2>Your Files ({{ totalfiles }})</h2>
+<ul class="list-group mb-5">
+{% for file in files %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span>{{ file.name }} <small class="text-muted">{{ file.upload_date|date:"M d, Y" }}</small></span>
+        <span>
+            <a href="{% url 'share_file' file.id %}" class="me-3">Share</a>
+            <a href="{{ file.uploaded_file.url }}" download class="me-3">Download</a>
+            <a href="{% url 'delete_file' file.id %}">Delete</a>
+        </span>
+    </li>
+{% empty %}
+    <li class="list-group-item text-center">No files uploaded yet.</li>
+{% endfor %}
+</ul>
+<h2>Files Shared with You</h2>
+<ul class="list-group">
+{% for shared in shared_files %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span>{{ shared.file.name }} <small class="text-muted">Shared by {{ shared.file.user.username }} on {{ shared.shared_date|date:"M d, Y" }}</small></span>
         <a href="{{ shared.file.uploaded_file.url }}" download>Download</a>
-      </li>
-      {% empty %}
-      <li>No files shared with you yet.</li>
-      {% endfor %}
-    </ul>
-  </body>
-</html>
+    </li>
+{% empty %}
+    <li class="list-group-item text-center">No files shared with you yet.</li>
+{% endfor %}
+</ul>
+{% endblock %}

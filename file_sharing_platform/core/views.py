@@ -69,10 +69,6 @@ def upload_file(request):
         form = FileUploadForm()
     return render(request, 'core/upload.html', {'form': form})
 
-@login_required(login_url='login')
-def file_list(request):
-    files = File.objects.all()
-    return render(request, "core/file_list.html", {'files':files})
 
 @login_required(login_url='login')
 def share_file(request, file_id):

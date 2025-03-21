@@ -1,19 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head><title>Upload File</title></head>
-<body>
+{% extends 'core/base.html' %}
+{% block title %}Upload File - File Sharing{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-5">
     <h1>Upload a File</h1>
-    <p>Logged in as: {{ user.username }} | <a href="{% url 'logout' %}">Logout</a></p>
-    {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-    {% endif %}
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Upload</button>
-    </form>
-    <a href="{% url 'dashboard' %}">Back to Dashboard</a>
-</body>
-</html>
+    <a href="{% url 'logout' %}" class="btn btn-secondary">Log Out</a>
+</div>
+<form method="post" enctype="multipart/form-data" class="d-grid gap-4" style="max-width: 600px;">
+    {% csrf_token %}
+    <div class="form-floating">
+        {{ form.name }}
+        <label for="id_name">File Name</label>
+    </div>
+    <div class="form-group">
+        {{ form.uploaded_file }}
+        <label for="id_uploaded_file" class="form-label">Choose File</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Upload</button>
+</form>
+<a href="{% url 'dashboard' %}" class="btn btn-secondary mt-4">Back to Dashboard</a>
+{% endblock %}

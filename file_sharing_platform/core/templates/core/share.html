@@ -1,19 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head><title>Share File</title></head>
-<body>
+{% extends 'core/base.html' %}
+{% block title %}Share File - File Sharing{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-5">
     <h1>Share "{{ file.name }}"</h1>
-    <p>Logged in as: {{ user.username }} | <a href="{% url 'logout' %}">Logout</a></p>
-    {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-    {% endif %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Share</button>
-    </form>
-    <a href="{% url 'dashboard' %}">Back to Dashboard</a>
-</body>
-</html>
+    <a href="{% url 'logout' %}" class="btn btn-secondary">Log Out</a>
+</div>
+<form method="post" class="d-grid gap-4" style="max-width: 600px;">
+    {% csrf_token %}
+    <div class="form-floating">
+        {{ form.shared_with }}
+        <label for="id_shared_with">Share with</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Share</button>
+</form>
+<a href="{% url 'dashboard' %}" class="btn btn-secondary mt-4">Back to Dashboard</a>
+{% endblock %}

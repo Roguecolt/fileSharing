@@ -94,3 +94,12 @@ def share_file(request, file_id):
     else:
         form = ShareFileForm()
     return render(request, 'core/share.html', {'form': form, 'file': file})
+
+@login_required(login_url='login')
+def delete_file(request, file_id):
+    file = get_object_or_404(File,id=file_id,user=request.user)
+    if request.method == "POST":
+        file.delete()
+        messages.success(request, f"{file.name} is deleted")
+        return redirect('dashboard')
+    return render(request, "core/delete_confirm.html",{'file':file})

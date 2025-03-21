@@ -19,6 +19,7 @@
         {{ file.name }} - Uploaded on {{ file.upload_date }}
         <a href="{% url 'share_file' file.id %}">Share</a> |
         <a href="{{ file.uploaded_file.url }}" download>Download</a>
+        <a href="{% url 'delete_file' file.id %}">Delete</a> |
       </li>
       {% empty %}
       <li>No files uploaded yet.</li>

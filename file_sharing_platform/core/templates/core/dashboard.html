@@ -12,9 +12,18 @@
     <h2>Your Files ({{ total_files }})</h2>
     <ul>
     {% for file in files %}
-        <li>{{ file.name }} - Uploaded on {{ file.upload_date }}</li>
+        <li>{{ file.name }} - Uploaded on {{ file.upload_date }} 
+            <a href="{% url 'share_file' file.id %}">Share</a></li>
     {% empty %}
         <li>No files uploaded yet.</li>
+    {% endfor %}
+    </ul>
+    <h2>Files Shared with You</h2>
+    <ul>
+    {% for shared in sharedfiles %}
+        <li>{{ shared.file.name }} - Shared by {{ shared.file.user.username }} on {{ shared.shared_date }}</li>
+    {% empty %}
+        <li>No files shared with you yet.</li>
     {% endfor %}
     </ul>
 </body>

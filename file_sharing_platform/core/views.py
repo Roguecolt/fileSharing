@@ -1,10 +1,10 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .forms import SignUpForm, FileUploadForm
-from .models import File
+from .forms import SignUpForm, FileUploadForm, ShareFileForm
+from .models import File, SharedFile
 
 # Create your views here.
 def signup_view(request):
@@ -49,8 +49,11 @@ def logout_view(request):
 def dashboard(request):
     files = File.objects.filter(user=request.user)
     totalfiles = files.count()
+    sharedfiles = SharedFile.objects.filter(shared_with = request.user)
+    print(f"Logged-in user: {request.user.username}")
+    print(f"Shared files for {request.user.username}: {sharedfiles}")
+    return render(request,'core/dashboard.html', {'files':files, 'totalfiles':totalfiles , 'sharedfiles':sharedfiles})
 
-    return render(request,'core/dashboard.html', {'files':files, 'totalfiles':totalfiles})
 
 @login_required(login_url='login')
 def upload_file(request):
@@ -71,3 +74,23 @@ def file_list(request):
     files = File.objects.all()
     return render(request, "core/file_list.html", {'files':files})
 
+@login_required(login_url='login')
+def share_file(request, file_id):
+    file = get_object_or_404(File, id=file_id, user=request.user)
+    if request.method == 'POST':
+        form = ShareFileForm(request.POST)
+        if form.is_valid():
+            shared_with = form.cleaned_data['shared_with']
+            if shared_with == request.user:
+                messages.error(request, "You cannot share a file with yourself!")
+            elif SharedFile.objects.filter(file=file, shared_with=shared_with).exists():
+                messages.error(request, "This file is already shared with that user!")
+            else:
+                shared_instance = SharedFile.objects.create(file=file, shared_with=shared_with)
+                messages.success(request, f"File shared with {shared_with.username}!")
+                # Debug: Print to console
+                print(f"Shared {file.name} with {shared_with.username}, ID: {shared_instance.id}")
+            return redirect('dashboard')
+    else:
+        form = ShareFileForm()
+    return render(request, 'core/share.html', {'form': form, 'file': file})

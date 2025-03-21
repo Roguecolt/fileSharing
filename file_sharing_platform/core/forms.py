@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import File
+from .models import File,SharedFile 
 
 class SignUpForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
@@ -28,3 +28,10 @@ class FileUploadForm(forms.ModelForm):
     class Meta:
         model = File
         fields = ['name', 'uploaded_file']
+
+class ShareFileForm(forms.ModelForm):
+    shared_with = forms.ModelChoiceField(queryset=User.objects.all(), label="Share with")
+    class Meta:
+        model = SharedFile
+        fields = ['shared_with']
+    

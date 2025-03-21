@@ -14,6 +14,7 @@
         <span>
             <a href="{% url 'share_file' file.id %}" class="me-3">Share</a>
             <a href="{{ file.uploaded_file.url }}" download class="me-3">Download</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#previewModal{{ file.id }}" class="me-3">Preview</a>
             <a href="{% url 'delete_file' file.id %}">Delete</a>
         </span>
     </li>
@@ -21,15 +22,69 @@
     <li class="list-group-item text-center">No files uploaded yet.</li>
 {% endfor %}
 </ul>
+
+{% for file in files %}
+<div class="modal fade" id="previewModal{{ file.id }}" tabindex="-1" aria-labelledby="previewModalLabel{{ file.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="previewModalLabel{{ file.id }}">{{ file.name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% if file.get_file_type == '.png' or file.get_file_type == '.jpg' or file.get_file_type == '.jpeg' %}
+                    <img src="{{ file.uploaded_file.url }}" style="max-width: 100%; border-radius: 8px;">
+                {% elif file.get_file_type == '.pdf' %}
+                <iframe src="http://127.0.0.1:8000{{ file.uploaded_file.url }}" width="100%" height="400" style="border: none;"></iframe>
+                {% else %}
+                    <p>No preview available for this file type.</p>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
 <h2>Files Shared with You</h2>
 <ul class="list-group">
-{% for shared in shared_files %}
+{% for shared in sharedfiles %}
     <li class="list-group-item d-flex justify-content-between align-items-center">
         <span>{{ shared.file.name }} <small class="text-muted">Shared by {{ shared.file.user.username }} on {{ shared.shared_date|date:"M d, Y" }}</small></span>
-        <a href="{{ shared.file.uploaded_file.url }}" download>Download</a>
+        <span>
+            <a href="{{ shared.file.uploaded_file.url }}" download class="me-3">Download</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#previewModal{{ shared.id }}" class="me-3">Preview</a>
+        </span>
     </li>
 {% empty %}
     <li class="list-group-item text-center">No files shared with you yet.</li>
 {% endfor %}
 </ul>
+
+<!-- Modals for Shared Files -->
+{% for shared in sharedfiles %}
+<div class="modal fade" id="previewModal{{ shared.id }}" tabindex="-1" aria-labelledby="previewModalLabel{{ shared.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="previewModalLabel{{ shared.id }}">{{ shared.file.name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% if shared.file.get_file_type == '.png' or shared.file.get_file_type == '.jpg' or shared.file.get_file_type == '.jpeg' %}
+                    <img src="{{ shared.file.uploaded_file.url }}" style="max-width: 100%; border-radius: 8px;">
+                {% elif shared.file.get_file_type == '.pdf' %}
+                <iframe src="http://127.0.0.1:8000{{ shared.file.uploaded_file.url }}" width="100%" height="400"></iframe>
+                {% else %}
+                    <p>No preview available for this file type.</p>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
 {% endblock %}

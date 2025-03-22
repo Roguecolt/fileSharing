@@ -125,4 +125,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-X_FRAME_OPTIONS = 'SAMEORIGIN'  # Allow framing from the same site(WAs set to deny initially hence couldint display pdf in modals)
+X_FRAME_OPTIONS = 'SAMEORIGIN'  #Allow framing from the same site(WAs set to deny initially hence couldint display pdf in modals)

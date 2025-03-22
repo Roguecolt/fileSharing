@@ -50,8 +50,8 @@ def dashboard(request):
     files = File.objects.filter(user=request.user)
     totalfiles = files.count()
     sharedfiles = SharedFile.objects.filter(shared_with = request.user)
-    print(f"Logged-in user: {request.user.username}")
-    print(f"Shared files for {request.user.username}: {sharedfiles}")
+    # print(f"Logged-in user: {request.user.username}")
+    # print(f"Shared files for {request.user.username}: {sharedfiles}")
     return render(request,'core/dashboard.html', {'files':files, 'totalfiles':totalfiles , 'sharedfiles':sharedfiles})
 
 

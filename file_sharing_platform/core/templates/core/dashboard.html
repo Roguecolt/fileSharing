@@ -35,7 +35,7 @@
                 {% if file.get_file_type == '.png' or file.get_file_type == '.jpg' or file.get_file_type == '.jpeg' %}
                     <img src="{{ file.uploaded_file.url }}" style="max-width: 100%; border-radius: 8px;">
                 {% elif file.get_file_type == '.pdf' %}
-                <iframe src="http://127.0.0.1:8000{{ file.uploaded_file.url }}" width="100%" height="400" style="border: none;"></iframe>
+                <iframe src="{{ file.uploaded_file.url }}" width="100%" height="400" style="border: none;"></iframe>
                 {% else %}
                     <p>No preview available for this file type.</p>
                 {% endif %}
@@ -75,7 +75,7 @@
                 {% if shared.file.get_file_type == '.png' or shared.file.get_file_type == '.jpg' or shared.file.get_file_type == '.jpeg' %}
                     <img src="{{ shared.file.uploaded_file.url }}" style="max-width: 100%; border-radius: 8px;">
                 {% elif shared.file.get_file_type == '.pdf' %}
-                <iframe src="http://127.0.0.1:8000{{ shared.file.uploaded_file.url }}" width="100%" height="400"></iframe>
+                <iframe src="{{ shared.file.uploaded_file.url }}" width="100%" height="400"></iframe>
                 {% else %}
                     <p>No preview available for this file type.</p>
                 {% endif %}

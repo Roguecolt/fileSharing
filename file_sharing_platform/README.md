@@ -1,9 +1,3 @@
-Here’s a polished, complete `README.md` for your File Sharing Platform, tailored to its current state—Dockerized, with signup/login, file uploads, dropdown-based sharing, and working image/PDF previews. It’s designed to be clear for anyone cloning from GitHub, with setup instructions, troubleshooting, and a professional touch for your portfolio. Since you’ve fixed the PDF preview, I’ll assume it’s all set with `X_FRAME_OPTIONS = 'SAMEORIGIN'` and direct media URLs.
-
----
-
-### `README.md`
-```markdown
 # File Sharing Platform
 
 A sleek, minimalistic web application built with Django for secure file uploads, sharing, and previews. Designed with a premium navy-gray-white UI, this app lets users manage files, share them with others via a dropdown, and preview images and PDFs in modals—all containerized with Docker for easy setup and deployment.

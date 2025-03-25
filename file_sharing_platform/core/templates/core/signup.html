@@ -10,18 +10,30 @@
                 <div class="form-floating">
                     {{ form.username }}
                     <label for="id_username">Username</label>
+                    {% if form.username.errors %}
+                        <small class="text-danger d-block mt-1">{{ form.username.errors }}</small>
+                    {% endif %} 
                 </div>
                 <div class="form-floating">
                     {{ form.email }}
                     <label for="id_email">Email</label>
+                    {% if form.email.errors %}
+                        <small class="text-danger d-block mt-1">{{ form.email.errors }}</small>
+                    {% endif %}
                 </div>
                 <div class="form-floating">
                     {{ form.password1 }}
                     <label for="id_password1">Password</label>
+                    {% if form.password1.errors %}
+                        <small class="text-danger d-block mt-1">{{ form.password1.errors }}</small>
+                    {% endif %}
                 </div>
                 <div class="form-floating">
                     {{ form.password2 }}
                     <label for="id_password2">Confirm Password</label>
+                    {% if form.password2.errors %}
+                        <small class="text-danger d-block mt-1">{{ form.password2.errors }}</small>
+                    {% endif %}
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Sign Up</button>
             </form>

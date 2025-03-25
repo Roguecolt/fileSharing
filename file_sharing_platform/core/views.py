@@ -28,7 +28,7 @@ def login_view(request):
             user = User.objects.get(username = username)
             username= user.username
         except User.DoesNotExist:
-            messages.error("Invalid Username or Password")
+            messages.error(request,"Invalid Username or Password")
             return redirect("login")
         
         user = authenticate(request,username=username,password=password)
